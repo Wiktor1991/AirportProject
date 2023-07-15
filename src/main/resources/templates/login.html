@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Welcome to Flightbooker</h1>
+
+
+<div>
+    <form th:action="@{/log}" th:method="post" th:object="${user}">
+        <label>Email: </label> <input th:field="${user.email}">
+        <label>Password: </label> <input th:field="${user.password}">
+        <button>Login</button>
+    </form>
+</div>
+<div th:unless="${validEmail}">
+    <p> Email does not exist ! Please try again  or create new account ! </p>
+</div>
+<div th:unless="${validPassword}">
+    <p> Your password is incorrect ! Please try again ! </p>
+</div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>Type a new Flight !</h2>
+<div>
+    <form th:action="@{/addFlight}" th:method="post" th:object="${flight}">
+        <label>Add a departure airport</label>
+        <input th:field="*{departureAirport}" th:placeholder="departure">
+        <label>Add an arrival airport</label>
+        <input th:field="*{arrivalAirport}" th:placeholder="arrival">
+        <h2>Type date and time (DEPARTURE) :</h2>
+        <input th:field="${datatime.year}"  th:placeholder="year">
+        <input th:field="${datatime.month}" th:placeholder="month">
+        <input th:field="${datatime.day}" th:placeholder="day">
+        <input th:field="${datatime.hour}" th:placeholder="hour">
+        <input th:field="${datatime.minute}" th:placeholder="minute">
+        <h2>Type date and time (ARRIVAL) :</h2>
+        <input th:field="${arrivaldatatime.year}"  th:placeholder="year">
+        <input th:field="${arrivaldatatime.month}" th:placeholder="month">
+        <input th:field="${arrivaldatatime.day}" th:placeholder="day">
+        <input th:field="${arrivaldatatime.hour}" th:placeholder="hour">
+        <input th:field="${arrivaldatatime.minute}" th:placeholder="minute">
+
+        <button>Send</button>
+
+
+
+    </form>
+</div>
+<div th:if="${isSaved}">
+    <p>Succes! Flight is saved!</p>
+    <form th:action="@{/user}">
+        <button>Go Back</button>
+    </form>
+</div>
+
+</body>
+</html>
