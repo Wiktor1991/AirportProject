@@ -12,11 +12,14 @@
     <p th:text="| Uprawnienia jako : ${user.type}|"></p>
 </div>
 <div>
-
-    <a th:href="@{/login}">Wroc do strony glownej</a>
-    <a th:href="@{/adding}">Dodaj lot</a>
-    <a th:href="@{/all}">Pokaz wszystkie loty</a>
-
+    <a th:href="@{/login}">
+        <button>Log out</button>
+    </a>
+    <span th:if="${isUser}"> <a> <button>Find your flight</button> </a></span>
+    <span th:if="${!isUser}"> <a href="create"><button>Add new flight</button> </a></span>
+    <a th:href="@{/all}">
+        <button>Show all flights</button>
+    </a>
 </div>
 </body>
 </html>

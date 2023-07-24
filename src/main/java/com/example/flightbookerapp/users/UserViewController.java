@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 @Controller
@@ -15,10 +16,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class UserViewController {
     private boolean validEmail = true;
     private boolean validPassword = true;
+    private  boolean isSaved;
 
     private User user2;
     private final UserService userService;
-    private final IUserRepository iUserRepository;
 
     @GetMapping("/login")
     public String logIn(Model model) {
@@ -31,15 +32,14 @@ public class UserViewController {
 
     @PostMapping("/log")
     public String getUser(@ModelAttribute User input) {
-
+        validPassword = true;
+        validEmail = true;
         user2 = userService.findByEmail(input.email);
         if (user2 == null){
             validEmail = false;
             log.info("User does not exists!");
             return "redirect:/login";
         }
-        validPassword = true;
-        validEmail = true;
         if (!user2.getPassword().equals(input.password)) {
             validPassword = false;
             log.info("Your password is incorrect ! ");
@@ -53,9 +53,32 @@ public class UserViewController {
     }
     @GetMapping("/user")
     public String userInterface(Model model){
-        log.info(user2.toString());
         model.addAttribute("user", user2);
+        boolean isUser = user2.type.equals("user");
+        model.addAttribute("isUser",isUser);
         return "home";
     }
+    @GetMapping("registry")
+    public String registry(Model model, String password){
+        model.addAttribute("newUser", new User());
+        model.addAttribute("pass", password);
+        model.addAttribute("valid",validPassword);
+        model.addAttribute("saved", isSaved);
+        return "registry";
+    }
 
+    @PostMapping("/createAccount")
+    public String newUser(@ModelAttribute("newUser") User user,
+                          @ModelAttribute("pass") String password){
+        validPassword = true;
+        isSaved = false;
+
+        if (user.password.equals(password)){
+            userService.addNew(new User(user.email,user.password,"user"));
+            isSaved = true;
+        }else{
+            validPassword = false;
+        }
+        return "redirect:/registry";
+    }
 }

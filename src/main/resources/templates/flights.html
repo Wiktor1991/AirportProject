@@ -5,9 +5,41 @@
     <title>Title</title>
 </head>
 <body>
-<ul>
-  <li th:each=" flight: ${flights}" th:text="${flight.getDepartureAirport() +' -> '+flight.getArrivalAirport()}"></li>
-</ul>
+
+<table style="border: solid black">
+    <thead>
+    <tr>
+        <td>Arrival airport</td>
+        <td>Departure airport</td>
+        <td>Departure time</td>
+        <td>Arrival time</td>
+        <td>Operation</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="flight:${flights}">
+        <td th:text="${flight.departureAirport}"></td>
+        <td th:text="${flight.arrivalAirport}"></td>
+        <td th:text="${flight.departureTime}"></td>
+        <td th:text="${flight.arrivalTime}"></td>
+        <td>
+            <form th:action="@{/delete}" th:method="post" th:object="${flight}">
+                <input type="hidden" th:value="${flight.id}" th:name="id">
+                <button>Delete</button>
+            </form>
+            <form th:action="@{/modify}" th:method="post">
+                <input type="hidden" th:value="${flight.id}" name="id">
+                <button>Modify</button>
+            </form>
+        </td>
+
+    </tr>
+    </tbody>
+</table>
+
+<div th:if="${isRemoved}">
+    Lot zostal pomyslnie usuniety
+</div>
 <form th:action="@{/user}">
     <button>Go back</button>
 </form>

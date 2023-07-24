@@ -17,4 +17,12 @@ public class FlightRepository {
     public List<Flight> getAllFlights(){
        return iFlightRepository.findAll();
     }
+
+    public void delete(Flight flight) {
+        iFlightRepository.delete(flight);
+    }
+
+    public void deleteById(Integer id) {
+        iFlightRepository.deleteById(id);
+    }
 }
